@@ -8,6 +8,9 @@ from datetime import datetime
 import os
 import logging
 
+#issue with celery
+#docker-compose run scrapy works
+
 settings = get_project_settings()
 
 app = Celery("tasks", broker=settings.get("REDIS_URL"))

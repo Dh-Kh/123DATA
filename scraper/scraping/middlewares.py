@@ -145,4 +145,4 @@ class SeleniumMiddleware:
 
     def spider_closed(self):
         """Shutdown the driver when spider is closed"""
-        self.driver.close()
+        self.drivec.quit()
