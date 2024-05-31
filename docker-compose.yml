@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+
+  scrapy:
+    build: ./scraper
+    container_name: scrapy
+    volumes:
+      - ./scraper:/scraper
+    depends_on:
+      - chromedriver
+      - pgdb
+      - redis
+    networks:
+      - appnetwork
+    command: sh -c "celery -A scheduler worker -l debug --logfile=logs/celery.log --beat & scrapy crawl scraping_spider" 
+
+
+  chromedriver:
+    image: selenium/standalone-chrome
+    ports: 
+      - "4444:4444"
+    shm_size: '512M'  
+    tmpfs:
+      - /dev/shm
+    networks:
+      - appnetwork
+
+  pgdb:
+    image: postgres
+    container_name: pgdb
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    networks:
+      - appnetwork
+      
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - '6380:6379'
+    networks:
+      - appnetwork
+
+networks:
+  appnetwork:
+    driver: bridge
+
+volumes:
+  pgdata:
+
+
+
