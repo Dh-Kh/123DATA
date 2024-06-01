@@ -3,13 +3,14 @@ services:
   scrapy:
     build: ./scraper
     container_name: scrapy
+    user: "1000:1000"
     volumes:
       - ./scraper:/scraper
     depends_on:
       - chromedriver
       - pgdb
       - redis
-    command: sh -c "celery -A scheduler worker -l debug --logfile=logs/celery.log --beat & scrapy crawl scraping_spider" 
+
 
   chromedriver:
     image: selenium/standalone-chrome
@@ -21,7 +22,7 @@ services:
       - /dev/shm
 
   pgdb:
-    image: postgres
+    image: postgres:latest
     container_name: pgdb
     environment:
       - POSTGRES_DB=postgres
@@ -35,7 +36,8 @@ services:
     image: redis:latest
     container_name: redis
     ports:
-      - '6380:6379'
+      - '6380:6380'
+    command: redis-server --port 6380
 
 volumes:
   pgdata:

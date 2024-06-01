@@ -16,7 +16,7 @@ class ScrapingSpiderSpider(scrapy.Spider):
 
     name = "scraping_spider"
     allowed_domains = ["auto.ria.com"]
-    start_urls = ["https://auto.ria.com/uk/legkovie/?page=%d" % i for i in range(1, 4)]
+    start_urls = ["https://auto.ria.com/uk/legkovie/?page=%d" % i for i in range(1, 2)]
     handle_httpstatus_list = [404,403]
 
     def start_requests(self):

@@ -40,28 +40,28 @@ class DatabasePipiline:
         )
         self.cursor = self.connection.cursor()
         
-    def process_item(self, item, spider):
+        self.cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS Autoria (
+                id serial PRIMARY KEY,
+                url VARCHAR(2038),
+                title VARCHAR(255),
+                price_usd int,
+                odometer int,
+                username VARCHAR(255),
+                phone_number TEXT [],
+                image_url TEXT [],
+                images_count int,
+                car_number VARCHAR(255),
+                car_vin VARCHAR(255),
+                datetime_found timestamp default current_timestamp
+            )
+            """
+        )
+        self.connection.commit()
         
+    def process_item(self, item, spider):
         try:
-            self.cursor.execute(
-                """
-                CREATE TABLE IF NOT EXISTS Autoria (
-                    id serial PRIMARY KEY,
-                    url VARCHAR(2038),
-                    title VARCHAR(255),
-                    price_usd int,
-                    odometer int,
-                    username VARCHAR(255),
-                    phone_number TEXT [],
-                    image_url TEXT [],
-                    images_count int,
-                    car_number VARCHAR(255),
-                    car_vin VARCHAR(255),
-                    datetime_found timestamp default current_timestamp
-                    )
-                """
-                
-                )
             self.cursor.execute(
                 """
                 INSERT INTO Autoria (
@@ -86,6 +86,7 @@ class DatabasePipiline:
                     %s,
                     %s,
                     %s
+                )
                 """, (
                     item["url"],
                     item["title"],
@@ -97,11 +98,13 @@ class DatabasePipiline:
                     item["images_count"],
                     item["car_number"],
                     item["car_vin"]
-                ))
+                )
+            )
             self.connection.commit()
-        except psycopg2.Error:
+        except psycopg2.Error as e:
+            print(f"Error: {e}")
             self.connection.rollback()
-        
+
         return item
         
     
