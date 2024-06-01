@@ -23,6 +23,7 @@ This project is a web scraper designed to extract data from the Autoria website 
 1. **Clone the Repository:**
 ```bash
    git clone https://github.com/Dh-Kh/123DATA.git
+   cd scraper
 ```
 
 2. **Execute commands:**
@@ -42,4 +43,3 @@ This project is a web scraper designed to extract data from the Autoria website 
 └── 📁 scraping
     ├── 📁 dumps
     └── 📁 spiders
-    
