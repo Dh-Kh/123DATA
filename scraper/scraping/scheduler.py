@@ -3,7 +3,7 @@ from celery.signals import after_setup_logger
 from celery.schedules import crontab
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
-from scraping.spiders.scraping_spider import ScrapingSpiderSpider
+from .spiders.scraping_spider import ScrapingSpiderSpider
 from datetime import datetime
 import os
 import logging
