@@ -7,7 +7,7 @@ from scraping.spiders.scraping_spider import ScrapingSpiderSpider
 from datetime import datetime
 import os
 import logging
-import subprocess
+from subprocess import PIPE, Popen
 
 settings = get_project_settings()
 
@@ -69,10 +69,12 @@ def dump_task():
         "-f", os.path.join(backup_folder, backup_file)  
     ]
     
+    
     try:
-        subprocess.run(backup_cmd, env=db_password, check=True)
+        p = Popen(backup_cmd, shell=False, stdin=PIPE,stdout=PIPE,stderr=PIPE)
+        return p.communicate('{}\n'.format(db_password))
         logger.info("Dump task executed successfully")
-    except subprocess.CalledProcessError as e:
+    except Exception as e:
         logger.error(f"Error executing dump task: {e}")
 @app.task
 def print_text():
