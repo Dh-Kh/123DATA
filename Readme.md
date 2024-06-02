@@ -30,7 +30,7 @@ This project is a web scraper designed to extract data from the Autoria website 
 ```bash
    docker-compose build 
    docker-compose up -d
-   docker-compose run scrapy celery -A scraping.scheduler worker -l debug --logfile=logs/celery.log --beat
+   docker-compose run scrapy celery -A scraping worker -l debug --logfile=logs/celery.log --beat
    ```
 
 3. **Useful commands:**
