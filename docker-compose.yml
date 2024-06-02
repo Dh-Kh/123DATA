@@ -22,7 +22,7 @@ services:
       - /dev/shm
 
   pgdb:
-    image: postgres:latest
+    image: postgres:11
     container_name: pgdb
     environment:
       - POSTGRES_DB=postgres
